@@ -1,5 +1,9 @@
+"use client";
 import Image from "next/image";
-import styles from "./page.module.css";
+import styles from "@/styles/page.module.css";
+
+import { ColorSchemeToggle } from "@/components/themeControllers/ColorSchemaToggle";
+import DirectionOfPage from "../components/themeControllers/DirectionOfPage";
 
 export default function Home() {
   return (
@@ -13,12 +17,10 @@ export default function Home() {
           height={38}
           priority
         />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+
+        <DirectionOfPage />
+
+        <ColorSchemeToggle />
 
         <div className={styles.ctas}>
           <a
