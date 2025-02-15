@@ -13,6 +13,7 @@ import {
   DirectionProvider,
 } from "@mantine/core";
 import { Geist, Geist_Mono } from "next/font/google";
+import React from "react";
 
 export const metadata: Metadata = {
   title: "Starter template ",
@@ -38,21 +39,23 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} dir="rtl" {...mantineHtmlProps}>
-      <head>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
-        />
-        <ColorSchemeScript />
-      </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <NextIntlClientProvider messages={messages}>
-          <DirectionProvider>
-            <MantineProvider theme={theme}>{children}</MantineProvider>
-          </DirectionProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <React.Fragment>
+      <html lang={locale} dir="rtl" {...mantineHtmlProps}>
+        <head>
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
+          />
+          <ColorSchemeScript />
+        </head>
+        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <NextIntlClientProvider messages={messages}>
+            <DirectionProvider>
+              <MantineProvider theme={theme}>{children}</MantineProvider>
+            </DirectionProvider>
+          </NextIntlClientProvider>
+        </body>
+      </html>
+    </React.Fragment>
   );
 }
