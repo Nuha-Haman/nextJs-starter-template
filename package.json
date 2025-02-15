@@ -7,15 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install",
-    "commit": "git-cz"
+    "prepare": "husky",
+    "commit": "git-cz",
+    "precommit": "npm run lint "
   },
   "config": {
     "commitizen": {
       "path": "@commitlint/cz-commitlint"
-    },
-    "lint-staged": {
-      "*.{js,jsx,ts,tsx}": "eslint --fix"
     }
   },
   "dependencies": {
@@ -33,20 +31,25 @@
   "devDependencies": {
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
-    "@commitlint/cz-commitlint": "^19.6.1",
     "@eslint/eslintrc": "^3",
+    "@eslint/js": "^9.20.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "commitizen": "^4.3.1",
-    "eslint": "^9",
+    "eslint": "^9.20.1",
     "eslint-config-next": "15.1.7",
-    "husky": "^8.0.0",
-    "inquirer": "^9.3.7",
-    "lint-staged": "^15.4.3",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^15.15.0",
+    "husky": "^9.1.7",
     "postcss": "^8.5.2",
     "postcss-preset-mantine": "^1.17.0",
     "postcss-simple-vars": "^7.0.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.24.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run precommit"
+    }
   }
 }
