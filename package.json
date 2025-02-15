@@ -6,7 +6,17 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install",
+    "commit": "git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    },
+    "lint-staged": {
+      "*.{js,jsx,ts,tsx}": "eslint --fix"
+    }
   },
   "dependencies": {
     "@mantine/core": "^7.16.3",
@@ -21,12 +31,19 @@
     "stylis-plugin-rtl": "^2.1.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
+    "@commitlint/cz-commitlint": "^19.6.1",
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "commitizen": "^4.3.1",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
+    "husky": "^8.0.0",
+    "inquirer": "^9.3.7",
+    "lint-staged": "^15.4.3",
     "postcss": "^8.5.2",
     "postcss-preset-mantine": "^1.17.0",
     "postcss-simple-vars": "^7.0.1",
