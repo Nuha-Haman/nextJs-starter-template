@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
+
 import "@/styles/globals.css";
 import "@mantine/core/styles.css";
 import { theme } from "@/config/theme";
@@ -25,13 +29,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="ar" dir="rtl" {...mantineHtmlProps}>
+    <html lang={locale} dir="rtl" {...mantineHtmlProps}>
       <head>
         <meta
           name="viewport"
@@ -40,9 +47,11 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <DirectionProvider>
-          <MantineProvider theme={theme}>{children}</MantineProvider>
-        </DirectionProvider>
+        <NextIntlClientProvider messages={messages}>
+          <DirectionProvider>
+            <MantineProvider theme={theme}>{children}</MantineProvider>
+          </DirectionProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

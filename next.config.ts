@@ -1,15 +1,16 @@
 import type { NextConfig } from "next";
 
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin();
+
 const nextConfig: NextConfig = {
   /* config options here */
-  i18n: {
-    locales: ["default", "en", "ar"],
-    defaultLocale: "default",
-    localeDetection: false,
-  },
+  reactStrictMode: true,
+  swcMinify: true,
   experimental: {
     optimizePackageImports: ["@mantine/core", "@mantine/hooks"],
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

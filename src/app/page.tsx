@@ -3,9 +3,13 @@ import Image from "next/image";
 import styles from "@/styles/page.module.css";
 
 import { ColorSchemeToggle } from "@/components/themeControllers/ColorSchemaToggle";
-import DirectionOfPage from "../components/themeControllers/DirectionOfPage";
+import DirectionOfPage from "@/components/themeControllers/DirectionOfPage";
+import { useTranslations } from "next-intl";
+import LanguageofPage from "../components/themeControllers/LanguageofPage";
 
 export default function Home() {
+  const t = useTranslations("HomePage");
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -17,11 +21,10 @@ export default function Home() {
           height={38}
           priority
         />
-
         <DirectionOfPage />
-
+        <LanguageofPage />
         <ColorSchemeToggle />
-
+        <h1>{t("title")}</h1>
         <div className={styles.ctas}>
           <a
             className={styles.primary}
