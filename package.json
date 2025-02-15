@@ -17,6 +17,7 @@
   "dependencies": {
     "@mantine/core": "^7.16.3",
     "@mantine/hooks": "^7.16.3",
+    "axios": "^1.7.9",
     "i18next": "^24.2.2",
     "i18next-resources-to-backend": "^1.2.1",
     "lucide-react": "^0.475.0",
@@ -49,5 +50,11 @@
     "hooks": {
       "pre-commit": "npm run precommit"
     }
+  },
+  "lint-staged": {
+    "*.{jsx,js,ts,tsx}": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ]
   }
 }
