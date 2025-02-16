@@ -1,43 +1,18 @@
-// eslint.config.js
-import { FlatCompat } from "@eslint/eslintrc";
 import globals from "globals";
-import pluginReact from "eslint-plugin-react";
-import tsPlugin from "@typescript-eslint/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
+import { FlatCompat } from "@eslint/eslintrc";
+import js from "@eslint/js";
 
-// Initialize FlatCompat to support traditional ESLint configurations
 const compat = new FlatCompat({
-  baseDirectory: import.meta.url, // Use import.meta.url for ESM modules
+  // import.meta.dirname is available after Node.js v20.11.0
+  baseDirectory: import.meta.dirname,
+  recommendedConfig: js.configs.recommended,
 });
-
 /** @type {import('eslint').Linter.Config[]} */
-
 const eslintConfig = [
-  // Apply configurations to relevant file types
-  {
-    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-      globals: globals.browser,
-    },
-    plugins: {
-      "@typescript-eslint": tsPlugin,
-      react: pluginReact,
-    },
-    rules: {
-      // Add your custom rules here
-    },
-  },
-  // Include configurations from traditional ESLint setups
+  { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
+  { languageOptions: { globals: globals.browser } },
   ...compat.config({
-    extends: ["next", "prettier", "next/core-web-vitals"],
+    extends: ["eslint:recommended", "next"],
   }),
 ];
 
