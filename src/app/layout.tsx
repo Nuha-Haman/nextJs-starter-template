@@ -14,6 +14,7 @@ import {
 } from "@mantine/core";
 import { Geist, Geist_Mono } from "next/font/google";
 import React from "react";
+import StoreProvider from "../config/StoreProvider";
 
 export const metadata: Metadata = {
   title: "Starter template ",
@@ -51,7 +52,9 @@ export default async function RootLayout({
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
           <NextIntlClientProvider messages={messages}>
             <DirectionProvider>
-              <MantineProvider theme={theme}>{children}</MantineProvider>
+              <MantineProvider theme={theme}>
+                <StoreProvider>{children}</StoreProvider>
+              </MantineProvider>
             </DirectionProvider>
           </NextIntlClientProvider>
         </body>

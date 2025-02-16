@@ -1,67 +1,34 @@
-// import axiosInstance from '@/lib/api';
-// // import { fileHeader, header, removeExtraWhiteSpace } from '@/api/helpers';
-// import { AxiosResponse } from 'axios';
+import axiosInstance from "@/lib/api";
 
-// //  get
-// const getRequest = async (url: string) => {
-//   const response = await axiosInstance.get(url, header());
-//   return response.data;
-// };
+//  get
+const getRequest = async (url: string) => {
+  const response = await axiosInstance.get(url);
+  return response.data;
+};
 
-// // create
-// const postRequest = async (url: string, option: any) => {
-//   const { data } = option;
-//   const response = await axiosInstance.post(
-//     url,
-//     removeExtraWhiteSpace(data),
-//     header()
-//   );
-//   return response?.data;
-// };
+// create
+const postRequest = async (url: string) => {
+  const response = await axiosInstance.post(url);
+  return response?.data;
+};
 
-// // update
-// const patchRequest = async (url: string, option: any) => {
-//   const { data } = option;
+// update
+const patchRequest = async (url: string) => {
+  const response = await axiosInstance.patch(url);
+  return response?.data;
+};
 
-//   const response = await axiosInstance.patch(
-//     url,
-//     removeExtraWhiteSpace(data),
-//     header()
-//   );
-//   return response?.data;
-// };
+// delete
+const deleteRequest = async (url: string) => {
+  const response = await axiosInstance.delete(url);
+  return response?.data;
+};
 
-// const patchRequestFormData = async (
-//   url: string,
-//   option: any
-// ): Promise<
-//   AxiosResponse<any, any> | { status: number | boolean; fields: any[] }
-// > => {
-//   const { data } = option;
-//   const form_data = new FormData();
+const service = {
+  getRequest,
+  postRequest,
+  patchRequest,
+  deleteRequest,
+};
 
-//   for (let key in data) {
-//     form_data.append(key, data[key]);
-//   }
-
-//   const res = await axiosInstance.post(url, form_data, {
-//     headers: fileHeader()?.headers,
-//   });
-//   return res;
-// };
-
-// // delete
-// const deleteRequest = async (url: string) => {
-//   const response = await axiosInstance.delete(url, header());
-//   return response?.data;
-// };
-
-// const service = {
-//   getRequest,
-//   postRequest,
-//   patchRequest,
-//   deleteRequest,
-//   patchRequestFormData,
-// };
-
-// export default service;
+export default service;
