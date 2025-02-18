@@ -1,0 +1,10 @@
+import { JSX } from "react";
+
+export default function NotFound(): JSX.Element {
+  return (
+    <div>
+      <h2>Page Not Found</h2>
+      <p>Could not find requested resource</p>
+    </div>
+  );
+}

@@ -13,8 +13,11 @@ import {
   DirectionProvider,
 } from "@mantine/core";
 import { Geist, Geist_Mono } from "next/font/google";
-import React from "react";
+import React, { Suspense } from "react";
 import StoreProvider from "../config/StoreProvider";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import GlobalError from "./global-error";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: "Starter template ",
@@ -35,7 +38,7 @@ export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}): Promise<React.JSX.Element> {
   const locale = await getLocale();
   const messages = await getMessages();
 
@@ -50,13 +53,17 @@ export default async function RootLayout({
           <ColorSchemeScript />
         </head>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          <NextIntlClientProvider messages={messages}>
-            <DirectionProvider>
-              <MantineProvider theme={theme}>
-                <StoreProvider>{children}</StoreProvider>
-              </MantineProvider>
-            </DirectionProvider>
-          </NextIntlClientProvider>
+          <ErrorBoundary errorComponent={GlobalError}>
+            <NextIntlClientProvider messages={messages}>
+              <DirectionProvider>
+                <MantineProvider theme={theme}>
+                  <Suspense fallback={<Loading />}>
+                    <StoreProvider>{children}</StoreProvider>
+                  </Suspense>
+                </MantineProvider>
+              </DirectionProvider>
+            </NextIntlClientProvider>
+          </ErrorBoundary>
         </body>
       </html>
     </React.Fragment>
