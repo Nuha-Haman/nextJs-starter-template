@@ -1,19 +1,30 @@
+import tsParser from "@typescript-eslint/parser";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
 import globals from "globals";
-import { FlatCompat } from "@eslint/eslintrc";
-import js from "@eslint/js";
+import next from "@next/eslint-plugin-next";
 
-const compat = new FlatCompat({
-  // import.meta.dirname is available after Node.js v20.11.0
-  baseDirectory: import.meta.dirname,
-  recommendedConfig: js.configs.recommended,
-});
-/** @type {import('eslint').Linter.Config[]} */
-const eslintConfig = [
-  { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
-  { languageOptions: { globals: globals.browser } },
-  ...compat.config({
-    extends: ["eslint:recommended", "next"],
-  }),
+export default [
+  {
+    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
+
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        // Specify the project file for type information
+        project: "./tsconfig.json",
+      },
+      globals: {
+        ...globals.browser,
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+      "@next/next": next,
+    },
+    rules: {
+      "@typescript-eslint/explicit-module-boundary-types": "warn",
+    },
+  },
 ];
-
-export default eslintConfig;

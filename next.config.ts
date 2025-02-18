@@ -7,10 +7,14 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
-
+  output: "standalone",
   experimental: {
     optimizePackageImports: ["@mantine/core", "@mantine/hooks"],
   },
 };
 
-export default withNextIntl(nextConfig);
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
+export default withNextIntl(withBundleAnalyzer(nextConfig));
