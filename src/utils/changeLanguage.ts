@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-export async function getLanguage() {
+export async function getLanguage(): Promise<string> {
   const cookieStore = await cookies();
   const hasCookie = cookieStore.has("language");
   const lang =
@@ -12,7 +12,7 @@ export async function getLanguage() {
   return lang;
 }
 
-export async function changeLanguage() {
+export async function changeLanguage(): Promise<void> {
   const cookieStore = await cookies();
 
   const lang = await getLanguage();

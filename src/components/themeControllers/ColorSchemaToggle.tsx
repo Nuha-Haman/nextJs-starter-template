@@ -1,9 +1,9 @@
 "use client";
 
 import { Button, Group, useMantineColorScheme } from "@mantine/core";
-import React from "react";
+import React, { JSX } from "react";
 
-export function ColorSchemeToggle() {
+export default function ColorSchemeToggle(): JSX.Element {
   const { setColorScheme } = useMantineColorScheme();
 
   return (

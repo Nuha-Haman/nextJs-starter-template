@@ -1,8 +1,8 @@
 import { ActionIcon, useDirection } from "@mantine/core";
 import { PilcrowLeftIcon, PilcrowRightIcon } from "lucide-react";
-import React from "react";
+import React, { JSX } from "react";
 
-function DirectionOfPage() {
+function DirectionOfPage(): JSX.Element {
   const { toggleDirection, dir } = useDirection();
 
   return (

@@ -1,103 +1,58 @@
 "use client";
-import Image from "next/image";
-import styles from "@/styles/page.module.css";
 
-import { ColorSchemeToggle } from "@/components/themeControllers/ColorSchemaToggle";
-import DirectionOfPage from "@/components/themeControllers/DirectionOfPage";
-import { useTranslations } from "next-intl";
-import LanguageofPage from "../components/themeControllers/LanguageofPage";
-import React from "react";
+import {
+  Container,
+  Title,
+  Text,
+  Image,
+  Center,
+  Group,
+  Stack,
+} from "@mantine/core";
 
-export default function Home() {
-  const t = useTranslations("HomePage");
+import dynamic from "next/dynamic";
+import logo from "@/assets/lamah-logo.png";
+import { JSX } from "react";
+// Client Components:
+const DirectionOfPage = dynamic(
+  () => import("@/components/themeControllers/DirectionOfPage")
+);
+const LanguageofPage = dynamic(
+  () => import("@/components/themeControllers/LanguageofPage")
+);
+const ColorSchemeToggle = dynamic(
+  () => import("@/components/themeControllers/ColorSchemaToggle"),
+  { ssr: false }
+);
 
+export default function StartPage(): JSX.Element {
   return (
-    <React.Fragment>
-      <div className={styles.page}>
-        <main className={styles.main}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js logo"
-            width={180}
-            height={38}
-            priority
-          />
+    <Container>
+      <Center>
+        <Image
+          src={logo.src} // Ensure your logo is placed in the public directory
+          alt="Logo"
+          width={150}
+          height={150}
+          loading="lazy"
+        />
+      </Center>
+      <Title ta="center" mt="md">
+        Welcome to My Template
+      </Title>
+      <Text ta={"center"} mt="sm">
+        This template is designed to help you kickstart your Next.js project
+        with ease. It includes pre-configured settings and components to
+        streamline your development process.
+      </Text>
+
+      <Stack align="center" mt="xl">
+        <Group align="center" mt="xl">
           <DirectionOfPage />
           <LanguageofPage />
-          <ColorSchemeToggle />
-          <h1>{t("title")}</h1>
-          <div className={styles.ctas}>
-            <a
-              className={styles.primary}
-              href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                className={styles.logo}
-                src="/vercel.svg"
-                alt="Vercel logomark"
-                width={20}
-                height={20}
-              />
-              Deploy now
-            </a>
-            <a
-              href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.secondary}
-            >
-              Read our docs
-            </a>
-          </div>
-        </main>
-        <footer className={styles.footer}>
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              aria-hidden
-              src="/file.svg"
-              alt="File icon"
-              width={16}
-              height={16}
-            />
-            Learn
-          </a>
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              aria-hidden
-              src="/window.svg"
-              alt="Window icon"
-              width={16}
-              height={16}
-            />
-            Examples
-          </a>
-          <a
-            href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              aria-hidden
-              src="/globe.svg"
-              alt="Globe icon"
-              width={16}
-              height={16}
-            />
-            Go to nextjs.org →
-          </a>
-        </footer>
-      </div>
-    </React.Fragment>
+        </Group>
+        <ColorSchemeToggle />
+      </Stack>
+    </Container>
   );
 }
