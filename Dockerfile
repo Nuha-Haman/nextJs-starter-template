@@ -1,36 +1,29 @@
-# Use the official Node.js image as the base image
-FROM node:20-alpine as builder
+# Use a Node.js base image
+FROM node:18-alpine AS builder
 
-# Set the working directory
-WORKDIR /src
+# Set working directory inside container
+WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy package files and install dependencies
+COPY package.json package-lock.json ./
+RUN npm install --frozen-lockfile
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code
+# Copy the rest of the project files
 COPY . .
 
 # Build the Next.js application
 RUN npm run build
 
-# Use a smaller image for the production environment
-FROM node:20-alpine as production
+# Use a smaller image for running the app
+FROM node:18-alpine AS runner
 
-# Set the working directory
-WORKDIR /
+WORKDIR /app
 
-# Copy the build artifacts from the builder stage
-COPY --from=builder .next ./
+# Copy built app from builder stage
+COPY --from=builder /app ./
 
-# Install only production dependencies
-COPY package*.json ./
-RUN npm install --production
+# Set environment variables (optional)
+ENV NODE_ENV=production
 
-# Expose the port the app runs on
-EXPOSE 3000
-
-# Start the Next.js application
+# Start Next.js
 CMD ["npm", "run", "start"]
