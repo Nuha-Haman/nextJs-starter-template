@@ -8,7 +8,7 @@ export const schema = z.object({
     message: "You must enter 8 characters or more",
   }),
   phone: z
-    .number()
+    .string()
     .min(8, {
       message: "You must enter 8 characters or more",
     })
