@@ -1,0 +1,21 @@
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release-please
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        with:
+          # you can select other release types, see the docs for more details:
+          # https://github.com/google-github-actions/release-please-action#release-types-supported
+          release-type: node
+          package-name: release-please-action
