@@ -3,17 +3,18 @@
 import { Command } from "commander";
 import inquirer from "inquirer";
 import ora from "ora";
-import { exec } from "child_process";
-import fs from "fs";
+import fs from "fs-extra";
 import path from "path";
+import { exec } from "child_process";
 import { promisify } from "util";
+import { fileURLToPath } from "url";
 
-const program = new Command();
-const GITHUB_USERNAME = "lamah-co"; // Change this
-const REPO_NAME = "nextJs-starter-template"; // Change this
+// Get __dirname equivalent in ES modules
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Promisify exec so we can use async/await
 const execPromise = promisify(exec);
+const program = new Command();
+const IGNORED_FOLDERS = [".git", "cli", ".next", "node_modules"];
 
 async function main() {
   const { projectName } = await inquirer.prompt([
@@ -25,32 +26,41 @@ async function main() {
     },
   ]);
 
+  const templateDir = path.resolve(__dirname, ".."); // Parent directory (template root)
   const targetDir = path.join(process.cwd(), projectName);
 
   if (fs.existsSync(targetDir)) {
-    console.log("Error: Folder already exists!");
+    console.error("Error: Folder already exists!");
     process.exit(1);
   }
 
-  const cloneSpinner = ora(
-    `Cloning private repo into '${projectName}'...`
+  const copySpinner = ora(
+    `Copying template files to '${projectName}'...`
   ).start();
+
   try {
-    const repoUrl = `git@github.com:${GITHUB_USERNAME}/${REPO_NAME}.git`;
+    // Copy all files except ignored ones
+    await fs.copy(templateDir, targetDir, {
+      filter: (src) => {
+        // Always allow .gitignore
+        if (path.basename(src) === ".gitignore") return true;
 
-    // Use execPromise to handle the git clone asynchronously
-    await execPromise(
-      `git clone --depth 1 ${repoUrl} ${projectName} > /dev/null 2>&1`
-    );
-    cloneSpinner.succeed("Repo cloned successfully!");
+        const relativePath = path.relative(templateDir, src);
+        return !IGNORED_FOLDERS.some((folder) =>
+          relativePath.startsWith(folder)
+        );
+      },
+    });
 
+    copySpinner.succeed("Template copied successfully!");
+
+    // Initialize a new Git repository
     const gitInitSpinner = ora("Initializing Git repository...").start();
-    fs.rmSync(path.join(targetDir, ".git"), { recursive: true, force: true });
     process.chdir(targetDir);
-    await execPromise("git init");
-    await execPromise("git add .");
+    await execPromise("git init && git add .");
     gitInitSpinner.succeed("Git repository initialized!");
 
+    // Install dependencies
     const installSpinner = ora("Installing dependencies...").start();
     await execPromise("npm install");
     installSpinner.succeed("Dependencies installed!");
