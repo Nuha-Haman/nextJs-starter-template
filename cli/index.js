@@ -8,15 +8,23 @@ import path from "path";
 import { exec } from "child_process";
 import { promisify } from "util";
 import { fileURLToPath } from "url";
+import { ASCII_ART, IGNORED_FOLDERS, DEPENDENCIES } from "./constants.js";
+import chalk from "chalk";
 
 // Get __dirname equivalent in ES modules
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const execPromise = promisify(exec);
 const program = new Command();
-const IGNORED_FOLDERS = [".git", "cli", ".next", "node_modules"];
 
 async function main() {
+  console.clear();
+  console.log(chalk.cyan(ASCII_ART));
+  console.log("🚀 Welcome to the Lamah's NextJs Starter 🚀");
+  console.log(
+    "Quickly set up your Next.js project with our starter template.\n"
+  );
+
   const { projectName } = await inquirer.prompt([
     {
       type: "input",
@@ -30,13 +38,26 @@ async function main() {
   const targetDir = path.join(process.cwd(), projectName);
 
   if (fs.existsSync(targetDir)) {
-    console.error("Error: Folder already exists!");
-    process.exit(1);
+    const { confirmOverwrite } = await inquirer.prompt([
+      {
+        type: "confirm",
+        name: "confirmOverwrite",
+        message: `The folder '${projectName}' already exists. Do you want to overwrite it?`,
+        default: false,
+      },
+    ]);
+
+    if (!confirmOverwrite) {
+      console.log("❌ Setup canceled.");
+      process.exit(1);
+    }
+
+    const deleteSpinner = ora("Deleting existing folder...").start();
+    await fs.remove(targetDir);
+    deleteSpinner.succeed("✅ Existing folder deleted.");
   }
 
-  const copySpinner = ora(
-    `Copying template files to '${projectName}'...`
-  ).start();
+  const copySpinner = ora(`Initializing project '${projectName}'...`).start();
 
   try {
     // Copy all files except ignored ones
@@ -52,21 +73,48 @@ async function main() {
       },
     });
 
-    copySpinner.succeed("Template copied successfully!");
+    copySpinner.succeed(`Project Created Successfully in ${targetDir}!`);
 
     // Initialize a new Git repository
     const gitInitSpinner = ora("Initializing Git repository...").start();
     process.chdir(targetDir);
-    await execPromise("git init && git add .");
+    await execPromise("git init");
     gitInitSpinner.succeed("Git repository initialized!");
 
+    // Git remote setup instructions
+    console.log(
+      "\n💡 To push your changes to a remote repository, follow these steps:"
+    );
+    console.log(
+      chalk.cyan("1. Add a remote URL: `git remote add origin <your-repo-url>`")
+    );
+    console.log(chalk.cyan("2. Push your changes: `git push -u origin main`"));
+
     // Install dependencies
-    const installSpinner = ora("Installing dependencies...").start();
+    console.log("\n📦 Installing dependencies:\n");
+    DEPENDENCIES.forEach((dep) => console.log(chalk.cyan(`  - ${dep}`)));
+    const installSpinner = ora("").start();
     await execPromise("npm install");
     installSpinner.succeed("Dependencies installed!");
 
-    ora(`✔ Project setup complete!`).succeed();
-    console.log(`cd ${projectName} && npm run dev`);
+    ora(`🎉 Project setup complete!`).succeed();
+    console.log(chalk.cyan("\n👉 Next steps:"));
+    console.log(`   cd ${projectName} && npm run dev\n`);
+
+    // Add helpful post-setup messages
+    console.log("🔧 Project customization:");
+    console.log(
+      "\n1. To change the favicon for your project, simply replace the 'favicon.ico' file in 'src/app' with your desired favicon.\n"
+    );
+
+    console.log(
+      "2. The project uses Lucide icons for easy icon management. To use a Lucide icon, import it from 'lucide-react'. For example:"
+    );
+    console.log(chalk.cyan("   import { Home } from 'lucide-react';"));
+    console.log(chalk.cyan("   <Home size={24} />"));
+    console.log(
+      "This allows you to use a wide range of scalable icons in your app!\n"
+    );
   } catch (error) {
     ora().fail("Error setting up project: " + error.message);
   }
