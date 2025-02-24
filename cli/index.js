@@ -63,15 +63,24 @@ async function main() {
     // Copy all files except ignored ones
     await fs.copy(templateDir, targetDir, {
       filter: (src) => {
-        // Always allow .gitignore
-        if (path.basename(src) === ".gitignore") return true;
-
         const relativePath = path.relative(templateDir, src);
         return !IGNORED_FOLDERS.some((folder) =>
           relativePath.startsWith(folder)
         );
       },
     });
+
+    const gitignoreTemplatePath = path.join(
+      __dirname,
+      "cli",
+      ".gitignore.template"
+    );
+    const newGitignorePath = path.join(targetDir, ".gitignore");
+
+    // Rename `.gitignore.template` to `.gitignore` in the new project
+    if (fs.existsSync(gitignoreTemplatePath)) {
+      await fs.copyFile(gitignoreTemplatePath, newGitignorePath);
+    }
 
     copySpinner.succeed(`Project Created Successfully in ${targetDir}!`);
 
@@ -88,7 +97,12 @@ async function main() {
     console.log(
       chalk.cyan("1. Add a remote URL: `git remote add origin <your-repo-url>`")
     );
-    console.log(chalk.cyan("2. Push your changes: `git push -u origin main`"));
+    console.log(
+      chalk.cyan(
+        "2. commit your files: `git add . && git commit -m 'Initial commit'`"
+      )
+    );
+    console.log(chalk.cyan("3. Push your changes: `git push -u origin main`"));
 
     // Install dependencies
     console.log("\n📦 Installing dependencies:\n");
