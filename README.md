@@ -6,13 +6,13 @@ This **Next.js 15** starter template is designed for modern web development with
 
 ## Table of Contents
 
-1. [Technologies & Tools Used](#technologies--tools-used)
-2. [Setting Up Git](#setting-up-git)
-3. [Customization](#customization)
-   - [Updating the Favicon](#updating-the-favicon)
-   - [Using Lucide Icons](#using-lucide-icons)
-   - [Styling & Theming](#styling-&-theming)
-4. [Installation & Setup](#installation-&-setup)
+1. [Technologies & Tools Used](-#technologies--tools-used)
+2. [Setting Up Git](#-setting-up-git)
+3. [Customization](#-customization)
+   - [Updating the Favicon](#-updating-the-favicon)
+   - [Using Lucide Icons](#-using-lucide-icons)
+   - [Styling & Theming](#-styling-&-theming)
+4. [Installation & Setup](#-installation-&-setup)
 
 ---
 
