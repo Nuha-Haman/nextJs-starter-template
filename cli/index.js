@@ -114,21 +114,6 @@ async function main() {
     ora(`🎉 Project setup complete!`).succeed();
     console.log(chalk.cyan("\n👉 Next steps:"));
     console.log(`   cd ${projectName} && npm run dev\n`);
-
-    // Add helpful post-setup messages
-    console.log("🔧 Project customization:");
-    console.log(
-      "\n1. To change the favicon for your project, simply replace the 'favicon.ico' file in 'src/app' with your desired favicon.\n"
-    );
-
-    console.log(
-      "2. The project uses Lucide icons for easy icon management. To use a Lucide icon, import it from 'lucide-react'. For example:"
-    );
-    console.log(chalk.cyan("   import { Home } from 'lucide-react';"));
-    console.log(chalk.cyan("   <Home size={24} />"));
-    console.log(
-      "This allows you to use a wide range of scalable icons in your app!\n"
-    );
   } catch (error) {
     ora().fail("Error setting up project: " + error.message);
   }
