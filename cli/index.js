@@ -71,7 +71,7 @@ async function main() {
     });
 
     const gitignoreTemplatePath = path.join(
-      __dirname,
+      templateDir,
       "cli",
       ".gitignore.template"
     );
