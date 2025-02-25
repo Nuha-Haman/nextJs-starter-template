@@ -18,7 +18,7 @@ This **Next.js 15** starter template is designed for modern web development with
 
 ## 🛠 Technologies & Tools Used
 
-### **FrontendV Framework**
+### **Frontend Framework**
 
 - **[Next.js 15](https://nextjs.org/docs)** – React-based framework for SSR, ISR, and static generation.
 
@@ -94,10 +94,6 @@ git push -u origin main
 ---
 
 ## 🎨 Customization
-
-### 🔹 Updating the Favicon
-
-The default favicon is located in `src/app/favicon.ico`. To personalize your project, replace this file with your own favicon. Ensure the new favicon follows the `.ico` format for optimal browser compatibility.
 
 ### 🔹 Using Lucide Icons
 
