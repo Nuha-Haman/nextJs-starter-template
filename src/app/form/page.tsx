@@ -11,6 +11,8 @@ import {
   Container,
   Title,
   Text,
+  Checkbox,
+  Textarea,
 } from "@mantine/core";
 import { initialValues, schema } from "./schema";
 
@@ -41,6 +43,7 @@ function ExampleForm(): JSX.Element {
             placeholder="Name"
             withAsterisk
             key={form.key("name")}
+            description="Name should have at least 2 letters"
             {...form.getInputProps("name")}
           />
 
@@ -67,6 +70,19 @@ function ExampleForm(): JSX.Element {
             mt="md"
             key={form.key("phone")}
             {...form.getInputProps("phone")}
+          />
+
+          <Textarea
+            label="Your message"
+            placeholder="Your message"
+            withAsterisk
+            mt="md"
+          />
+
+          <Checkbox
+            label="I ACCEPT ALL TERMS AND CONDITIONS"
+            mt="md"
+            styles={{}}
           />
 
           <Group justify="flex-end" mt="md">
